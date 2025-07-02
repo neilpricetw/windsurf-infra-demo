@@ -62,8 +62,19 @@ data "aws_iam_policy_document" "github_actions" {
       "iam:List*",
       "sts:GetCallerIdentity",
       "kms:DescribeKey",
+      "kms:CreateKey",
+      "kms:EnableKeyRotation",
+      "kms:CreateAlias",
+      "kms:ListAliases",
+      "kms:TagResource",
+      "kms:PutKeyPolicy",
+      "logs:AssociateKmsKey",
       "logs:DescribeLogGroups",
       "logs:ListTagsLogGroup",
+      "kms:GetKeyPolicy",
+      "kms:GetKeyRotationStatus",
+      "kms:ListResourceTags",
+      "logs:CreateLogGroup"
     ]
     resources = ["*"]
   }

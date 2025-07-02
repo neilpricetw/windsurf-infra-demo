@@ -17,7 +17,20 @@ resource "aws_kms_key" "eks_logs" {
         "Action" : [
           "kms:DescribeKey",
           "kms:List*",
-          "kms:Get*"
+          "kms:Get*",
+          "kms:ListAliases",
+          "kms:PutKeyPolicy"
+        ],
+        "Resource" : "*"
+      },
+      {
+        "Effect" : "Allow",
+        "Principal" : { "Service" : "logs.ap-southeast-2.amazonaws.com" },
+        "Action" : [
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:GenerateDataKey*",
+          "kms:DescribeKey"
         ],
         "Resource" : "*"
       }

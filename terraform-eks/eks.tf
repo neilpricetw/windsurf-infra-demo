@@ -22,6 +22,19 @@ module "eks" {
 
   cloudwatch_log_group_kms_key_id = aws_kms_key.eks_logs.arn
 
+  kms_key_additional_policy = jsonencode({
+    "Effect" : "Allow",
+    "Principal" : {
+      "AWS" : "arn:aws:iam::160071257600:role/github-actions-terraform"
+    },
+    "Action" : [
+      "kms:DescribeKey",
+      "kms:List*",
+      "kms:Get*"
+    ],
+    "Resource" : "*"
+  })
+
   fargate_profiles = {
     default = {
       selectors = [
