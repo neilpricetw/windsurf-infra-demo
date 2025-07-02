@@ -60,7 +60,10 @@ data "aws_iam_policy_document" "github_actions" {
       "eks:List*",
       "iam:Get*",
       "iam:List*",
-      "sts:GetCallerIdentity"
+      "sts:GetCallerIdentity",
+      "kms:DescribeKey",
+      "logs:DescribeLogGroups",
+      "logs:ListTagsLogGroup",
     ]
     resources = ["*"]
   }

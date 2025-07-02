@@ -20,6 +20,8 @@ module "eks" {
 
   enable_irsa = false
 
+  cloudwatch_log_group_kms_key_id = aws_kms_key.eks_logs.arn
+
   fargate_profiles = {
     default = {
       selectors = [
