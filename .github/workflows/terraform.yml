@@ -21,6 +21,12 @@ jobs:
         with:
           terraform_version: 1.6.6
 
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::160071257600:role/github-actions-terraform
+          aws-region: ap-southeast-2
+
       - name: Terraform Format
         run: terraform fmt -check -recursive
 
