@@ -1,0 +1,40 @@
+# Terraform best practices
+**/.terraform/
+*.tfstate
+*.tfstate.backup
+crash.log
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+# Sensitive or local files
+*.pem
+*.key
+*.crt
+*.env
+.env.*
+# OS and editor files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*.bak
+*.tmp
+# Node, Python, Go, etc. (if present)
+node_modules/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+coverage/
+# Misc
+*.log
+*.zip
+*.tar.gz
+*.gz
+*.backup
