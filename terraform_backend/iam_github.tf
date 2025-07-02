@@ -74,7 +74,10 @@ data "aws_iam_policy_document" "github_actions" {
       "kms:GetKeyPolicy",
       "kms:GetKeyRotationStatus",
       "kms:ListResourceTags",
-      "logs:CreateLogGroup"
+      "logs:CreateLogGroup",
+      "logs:TagResource",
+      "logs:PutRetentionPolicy",
+      "kms:ScheduleKeyDeletion"
     ]
     resources = ["*"]
   }
