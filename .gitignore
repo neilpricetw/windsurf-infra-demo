@@ -3,6 +3,8 @@
 *.tfstate
 *.tfstate.backup
 crash.log
+# Allow main tfvars file, ignore all others
+!terraform.tfvars
 *.tfvars
 *.tfvars.json
 override.tf
