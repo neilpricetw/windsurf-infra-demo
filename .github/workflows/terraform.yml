@@ -5,6 +5,13 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      destroy:
+        description: 'Destroy resources instead of apply?'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   id-token: write
@@ -51,5 +58,12 @@ jobs:
       - name: Terraform Plan
         run: terraform plan
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
+      - name: Terraform Apply or Destroy
+        run: |
+          if [[ "${{ github.event.inputs.destroy }}" == "true" ]]; then
+            echo "Running terraform destroy..."
+            terraform destroy -auto-approve
+          else
+            echo "Running terraform apply..."
+            terraform apply -auto-approve
+          fi
