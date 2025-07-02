@@ -7,7 +7,7 @@ provider "aws" {
 
 # Example resources to create the S3 bucket and DynamoDB table for state management (uncomment and adjust as needed)
 resource "aws_s3_bucket" "tf_state" {
-  bucket = "np-tfstate5"
+  bucket        = "np-tfstate5"
   force_destroy = false
 
   tags = {
