@@ -25,7 +25,7 @@ module "eks" {
   cluster_endpoint_public_access       = true
   cluster_endpoint_public_access_cidrs = ["0.0.0.0/0"]
 
-  enable_irsa = false
+  enable_irsa = true
 
   cloudwatch_log_group_kms_key_id = aws_kms_key.eks_logs.arn
 
