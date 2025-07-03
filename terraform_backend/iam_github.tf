@@ -119,7 +119,16 @@ data "aws_iam_policy_document" "github_actions" {
       "eks:CreateFargateProfile",
       "logs:CreateLogGroup",
       "logs:PutRetentionPolicy",
-      "kms:CreateAlias"
+      "kms:CreateAlias",
+      "iam:TagRole",
+      "ec2:ModifyVpcAttribute",
+      "eks:TagResource",
+      "ec2:AssociateRouteTable",
+      "ec2:CreateRoute",
+      "ec2:DeleteNetworkAclEntry",
+      "iam:CreatePolicy",
+      "ec2:CreateNetworkAclEntry",
+      "iam:TagPolicy"
     ]
     resources = ["*"]
   }
