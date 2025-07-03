@@ -16,7 +16,7 @@ module "eks" {
   vpc_id          = module.vpc.vpc_id
 
   cluster_endpoint_public_access       = true
-  cluster_endpoint_public_access_cidrs = ["45.118.67.137/32"]
+  cluster_endpoint_public_access_cidrs = ["0.0.0.0/0"]
 
   enable_irsa = false
 
