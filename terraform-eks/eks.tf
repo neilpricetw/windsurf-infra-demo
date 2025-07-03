@@ -34,6 +34,12 @@ module "eks" {
       selectors = [
         {
           namespace = "default"
+        },
+        {
+          namespace = "kube-system"
+          labels = {
+            "k8s-app" = "aws-load-balancer-controller"
+          }
         }
       ]
     }
