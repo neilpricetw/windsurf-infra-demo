@@ -77,7 +77,29 @@ data "aws_iam_policy_document" "github_actions" {
       "logs:CreateLogGroup",
       "logs:TagResource",
       "logs:PutRetentionPolicy",
-      "kms:ScheduleKeyDeletion"
+      "kms:ScheduleKeyDeletion",
+      "iam:DetachRolePolicy",
+      "iam:DeletePolicy",
+      "iam:DeleteRole",
+      "ec2:DisassociateRouteTable",
+      "ec2:DeleteRoute",
+      "ec2:DeleteTags",
+      "ec2:DeleteRouteTable",
+      "ec2:DeleteNatGateway",
+      "eks:DeleteFargateProfile",
+      "eks:DeleteCluster",
+      "kms:DeleteAlias",
+      "iam:DeleteRolePolicy",
+      "ec2:RevokeSecurityGroupIngress",
+      "ec2:DeleteSubnet",
+      "ec2:DeleteSecurityGroup",
+      "ec2:DeleteInternetGateway",
+      "ec2:DetachInternetGateway",
+      "ec2:DeleteNatGateway",
+      "ec2:DeleteVpc",
+      "logs:DeleteLogGroup",
+      "ec2:RevokeSecurityGroupEgress",
+      "ec2:ReleaseAddress"
     ]
     resources = ["*"]
   }
