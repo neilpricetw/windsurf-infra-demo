@@ -4,5 +4,5 @@ image:
   tag: "a9e9e4e5a7d69e7637a0953667da7fda3c49ff31"
   pullPolicy: IfNotPresent
 service:
-  type: LoadBalancer
+  type: ClusterIP
   port: 80
