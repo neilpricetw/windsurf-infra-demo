@@ -44,8 +44,8 @@ jobs:
       - name: Update Helm values with image tag
         working-directory: ./react-frontend/chart
         run: |
-          sed -i 's|tag:.*|tag: "'${{ env.IMAGE_TAG }}'"|' values.yaml
-          sed -i 's|repository:.*|repository: "'${{ steps.login-ecr.outputs.registry }}/react-frontend"|' values.yaml
+          sed -i "s|tag:.*|tag: \"${{ env.IMAGE_TAG }}\"|" values.yaml
+          sed -i "s|repository:.*|repository: \"${{ steps.login-ecr.outputs.registry }}/react-frontend\"|" values.yaml
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
