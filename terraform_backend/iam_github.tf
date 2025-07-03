@@ -148,7 +148,8 @@ data "aws_iam_policy_document" "github_actions" {
       "ecr:TagResource",
       "ecr:UntagResource",
       "ecr:DescribeImages",
-      "ecr:BatchDeleteImage"
+      "ecr:BatchDeleteImage",
+      "ecr:ListTagsForResource"
     ]
     resources = ["*"]
   }
