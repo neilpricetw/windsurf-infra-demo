@@ -164,7 +164,10 @@ data "aws_iam_policy_document" "github_actions" {
       "eks:DescribeAddonVersions",
       "eks:ListClusters",
       "eks:ListIdentityProviderConfigs",
-      "iam:ListRoles"
+      "iam:ListRoles",
+      "iam:TagOpenIDConnectProvider",
+      "iam:CreateOpenIDConnectProvider",
+      "iam:DeleteOpenIDConnectProvider"
     ]
     resources = ["*"]
   }
