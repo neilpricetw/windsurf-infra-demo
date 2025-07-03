@@ -128,7 +128,8 @@ data "aws_iam_policy_document" "github_actions" {
       "ec2:DeleteNetworkAclEntry",
       "iam:CreatePolicy",
       "ec2:CreateNetworkAclEntry",
-      "iam:TagPolicy"
+      "iam:TagPolicy",
+      "ec2:DisassociateAddress"
     ]
     resources = ["*"]
   }
