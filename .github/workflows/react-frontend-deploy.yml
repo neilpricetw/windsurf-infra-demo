@@ -1,0 +1,57 @@
+name: React Frontend CI/CD
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: ap-southeast-2
+      IMAGE_TAG: ${{ github.sha }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::160071257600:role/github-actions-terraform
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build Docker image
+        working-directory: ./react-frontend/app
+        run: |
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/react-frontend:${{ env.IMAGE_TAG }} .
+
+      - name: Push Docker image to ECR
+        run: |
+          docker push ${{ steps.login-ecr.outputs.registry }}/react-frontend:${{ env.IMAGE_TAG }}
+
+      - name: Update Helm values with image tag
+        working-directory: ./react-frontend/chart
+        run: |
+          sed -i 's|tag:.*|tag: "'${{ env.IMAGE_TAG }}'"|' values.yaml
+          sed -i 's|repository:.*|repository: "'${{ steps.login-ecr.outputs.registry }}/react-frontend"|' values.yaml
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      - name: Update kubeconfig for EKS
+        run: |
+          aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name np-eks-fargate
+
+      - name: Deploy to EKS with Helm
+        working-directory: ./react-frontend/chart
+        run: |
+          helm upgrade --install react-frontend . --namespace default --create-namespace

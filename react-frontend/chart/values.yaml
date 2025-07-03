@@ -1,0 +1,8 @@
+replicaCount: 3  # Set to number of AZs for HA
+image:
+  repository: "<your-dockerhub-username>/react-frontend"
+  tag: "latest"
+  pullPolicy: IfNotPresent
+service:
+  type: LoadBalancer
+  port: 80

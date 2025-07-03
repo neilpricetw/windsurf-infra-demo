@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "react-frontend.fullname" . }}
+  labels:
+    app: {{ include "react-frontend.name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "react-frontend.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "react-frontend.name" . }}
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: {{ include "react-frontend.name" . }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - {{ include "react-frontend.name" . }}
+              topologyKey: topology.kubernetes.io/zone
+      containers:
+        - name: react-frontend
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 80
+          imagePullPolicy: {{ .Values.image.pullPolicy }}

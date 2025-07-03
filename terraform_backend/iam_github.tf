@@ -129,7 +129,26 @@ data "aws_iam_policy_document" "github_actions" {
       "iam:CreatePolicy",
       "ec2:CreateNetworkAclEntry",
       "iam:TagPolicy",
-      "ec2:DisassociateAddress"
+      "ec2:DisassociateAddress",
+      # ECR permissions for CI/CD
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:BatchGetImage",
+      "ecr:PutImage",
+      "ecr:InitiateLayerUpload",
+      "ecr:UploadLayerPart",
+      "ecr:CompleteLayerUpload",
+      "ecr:CreateRepository",
+      "ecr:DescribeRepositories",
+      "ecr:ListImages",
+      "ecr:DeleteRepository",
+      "ecr:DeleteRepositoryPolicy",
+      "ecr:SetRepositoryPolicy",
+      "ecr:TagResource",
+      "ecr:UntagResource",
+      "ecr:DescribeImages",
+      "ecr:BatchDeleteImage"
     ]
     resources = ["*"]
   }
