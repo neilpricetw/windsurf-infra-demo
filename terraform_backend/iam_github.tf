@@ -99,7 +99,27 @@ data "aws_iam_policy_document" "github_actions" {
       "ec2:DeleteVpc",
       "logs:DeleteLogGroup",
       "ec2:RevokeSecurityGroupEgress",
-      "ec2:ReleaseAddress"
+      "ec2:ReleaseAddress",
+      "iam:CreateRole",
+      "iam:AttachRolePolicy",
+      "iam:PutRolePolicy",
+      "iam:PassRole",
+      "ec2:CreateVpc",
+      "ec2:CreateSubnet",
+      "ec2:CreateRouteTable",
+      "ec2:CreateInternetGateway",
+      "ec2:AttachInternetGateway",
+      "ec2:CreateNatGateway",
+      "ec2:AllocateAddress",
+      "ec2:CreateSecurityGroup",
+      "ec2:AuthorizeSecurityGroupIngress",
+      "ec2:AuthorizeSecurityGroupEgress",
+      "ec2:CreateTags",
+      "eks:CreateCluster",
+      "eks:CreateFargateProfile",
+      "logs:CreateLogGroup",
+      "logs:PutRetentionPolicy",
+      "kms:CreateAlias"
     ]
     resources = ["*"]
   }
