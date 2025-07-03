@@ -153,7 +153,18 @@ data "aws_iam_policy_document" "github_actions" {
       "ecr:UntagResource",
       "ecr:DescribeImages",
       "ecr:BatchDeleteImage",
-      "ecr:ListTagsForResource"
+      "ecr:ListTagsForResource",
+      "eks:ListFargateProfiles",
+      "eks:DescribeNodegroup",
+      "eks:ListNodegroups",
+      "eks:ListUpdates",
+      "eks:AccessKubernetesApi",
+      "eks:ListAddons",
+      "eks:DescribeCluster",
+      "eks:DescribeAddonVersions",
+      "eks:ListClusters",
+      "eks:ListIdentityProviderConfigs",
+      "iam:ListRoles"
     ]
     resources = ["*"]
   }
