@@ -37,9 +37,6 @@ module "eks" {
         },
         {
           namespace = "kube-system"
-          labels = {
-            "k8s-app" = "aws-load-balancer-controller"
-          }
         }
       ]
     }
