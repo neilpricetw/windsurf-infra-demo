@@ -11,6 +11,7 @@
                 "ec2:CreateSecurityGroup",
                 "ec2:CreateTags",
                 "ec2:DeleteTags",
+                "ec2:DescribeAvailabilityZones",
                 "ec2:DescribeAccountAttributes",
                 "ec2:DescribeAddresses",
                 "ec2:DescribeInstances",
