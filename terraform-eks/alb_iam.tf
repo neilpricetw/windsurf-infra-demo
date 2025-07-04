@@ -26,7 +26,7 @@ resource "aws_iam_role" "alb_controller" {
 }
 
 resource "aws_iam_policy" "alb_controller_policy" {
-  name   = "AWSLoadBalancerControllerIAMPolicy"
+  name   = "AWSLoadBalancerControllerIAMPolicyUpdated"
   policy = file("${path.module}/alb_policy.json")
 }
 
