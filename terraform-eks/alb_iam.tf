@@ -25,7 +25,12 @@ resource "aws_iam_role" "alb_controller" {
   assume_role_policy = data.aws_iam_policy_document.alb_controller_assume_role.json
 }
 
+resource "aws_iam_policy" "alb_controller_policy" {
+  name   = "AWSLoadBalancerControllerIAMPolicy"
+  policy = file("${path.module}/alb_policy.json")
+}
+
 resource "aws_iam_role_policy_attachment" "alb_controller_policy" {
   role       = aws_iam_role.alb_controller.name
-  policy_arn = "arn:aws:iam::160071257600:policy/AWSLoadBalancerControllerIAMPolicy"
+  policy_arn = aws_iam_policy.alb_controller_policy.arn
 }
