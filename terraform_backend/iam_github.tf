@@ -86,6 +86,7 @@ data "aws_iam_policy_document" "github_actions" {
       "iam:DeletePolicy",
       "iam:DeleteRole",
       "iam:CreatePolicyVersion",
+      "iam:DeletePolicyVersion",
       "ec2:DisassociateRouteTable",
       "ec2:DeleteRoute",
       "ec2:DeleteTags",
