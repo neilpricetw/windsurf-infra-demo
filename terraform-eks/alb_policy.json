@@ -25,6 +25,7 @@
                 "ec2:ModifyInstanceAttribute",
                 "ec2:ModifyNetworkInterfaceAttribute",
                 "ec2:RevokeSecurityGroupIngress",
+                "elasticloadbalancing:DescribeTargetGroupAttributes",                
                 "elasticloadbalancing:AddListenerCertificates",
                 "elasticloadbalancing:AddTags",
                 "elasticloadbalancing:CreateListener",
