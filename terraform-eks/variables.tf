@@ -49,3 +49,19 @@ variable "eks_cluster_version" {
   description = "Kubernetes version for the EKS cluster"
   type        = string
 }
+
+variable "kubernetes_host" {
+  description = "Kubernetes API server endpoint"
+  type        = string
+}
+
+variable "kubernetes_ca_certificate" {
+  description = "Kubernetes CA certificate (base64 encoded)"
+  type        = string
+}
+
+variable "kubernetes_token" {
+  description = "Kubernetes API Bearer token"
+  type        = string
+  sensitive   = true
+}
