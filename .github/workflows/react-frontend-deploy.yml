@@ -35,8 +35,8 @@ jobs:
       - name: Replace Supabase placeholders with secrets
         working-directory: ./react-frontend/app/src
         run: |
-          sed -i "" "s|SUPABASE_URL_PLACEHOLDER|${{ secrets.SUPABASE_URL }}|g" supabaseClient.js
-          sed -i "" "s|SUPABASE_ANON_KEY_PLACEHOLDER|${{ secrets.SUPABASE_ANON_KEY }}|g" supabaseClient.js
+          sed -i "" 's|SUPABASE_URL_PLACEHOLDER|${{ secrets.SUPABASE_URL }}|g' supabaseClient.js
+          sed -i "" 's|SUPABASE_ANON_KEY_PLACEHOLDER|${{ secrets.SUPABASE_ANON_KEY }}|g' supabaseClient.js
 
       - name: Build Docker image
         working-directory: ./react-frontend/app
