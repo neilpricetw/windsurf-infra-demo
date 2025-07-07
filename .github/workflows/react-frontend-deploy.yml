@@ -56,6 +56,42 @@ jobs:
         run: |
           aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name np-eks-fargate
 
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      - name: Add AWS EKS Helm repo
+        run: helm repo add eks https://aws.github.io/eks-charts && helm repo update
+
+      - name: Install AWS Load Balancer Controller CRDs
+        run: |
+          kubectl apply -f https://github.com/aws/eks-charts/raw/master/stable/aws-load-balancer-controller/crds/crds.yaml        
+
+      - name: Install jq
+        run: |
+          sudo apt install -y jq
+          jq --version
+
+      - name: Get VPC ID from Terraform
+        id: get-vpc-id
+        run: |
+          echo "VPC_ID=$(aws ec2 describe-vpcs | jq -r '.Vpcs | .[] | .VpcId')" >> $GITHUB_ENV
+        working-directory: ./terraform-eks
+
+      - name: Install/Upgrade AWS Load Balancer Controller
+        run: |
+          helm upgrade --install aws-load-balancer-controller eks/aws-load-balancer-controller \
+            --namespace kube-system \
+            --set enableServiceMutatorWebhook=false \
+            --set clusterName=np-eks-fargate \
+            --set serviceAccount.create=false \
+            --set serviceAccount.name=aws-load-balancer-controller \
+            --set region=ap-southeast-2 \
+            --set vpcId=$VPC_ID \
+            --set image.tag="v2.7.1"
+  
+
+
       - name: Deploy to EKS with Helm
         working-directory: ./react-frontend/chart
         run: |
