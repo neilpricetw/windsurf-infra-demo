@@ -53,15 +53,18 @@ variable "eks_cluster_version" {
 variable "kubernetes_host" {
   description = "Kubernetes API server endpoint"
   type        = string
+  default     = "dummy-host"
 }
 
 variable "kubernetes_ca_certificate" {
   description = "Kubernetes CA certificate (base64 encoded)"
   type        = string
+  default     = "ZHVtbXktY2E=" # base64 for 'dummy-ca'
 }
 
 variable "kubernetes_token" {
   description = "Kubernetes API Bearer token"
   type        = string
   sensitive   = true
+  default     = "dummy-token"
 }
