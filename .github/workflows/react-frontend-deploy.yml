@@ -88,8 +88,6 @@ jobs:
             --set region=ap-southeast-2 \
             --set vpcId=$VPC_ID \
             --set image.tag="v2.7.1"
-  
-
 
       - name: Deploy to EKS with Helm
         working-directory: ./react-frontend/chart
