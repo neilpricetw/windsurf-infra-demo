@@ -69,38 +69,3 @@ jobs:
             terraform apply -auto-approve
           fi
 
-      # --- Kubernetes Layer ---
-      - name: Export Kubernetes Provider Vars
-        id: export-kube-vars
-        run: |
-          CLUSTER_NAME="np-eks-fargate"
-          AWS_REGION="ap-southeast-2"
-          export KUBE_HOST=$(aws eks describe-cluster --name "$CLUSTER_NAME" --region "$AWS_REGION" --query 'cluster.endpoint' --output text)
-          export KUBE_CA=$(aws eks describe-cluster --name "$CLUSTER_NAME" --region "$AWS_REGION" --query 'cluster.certificateAuthority.data' --output text)
-          export KUBE_TOKEN=$(aws eks get-token --cluster-name "$CLUSTER_NAME" --region "$AWS_REGION" --query 'status.token' --output text)
-          echo "KUBE_HOST=$KUBE_HOST" >> $GITHUB_ENV
-          echo "KUBE_CA=$KUBE_CA" >> $GITHUB_ENV
-          echo "KUBE_TOKEN=$KUBE_TOKEN" >> $GITHUB_ENV
-          export TF_VAR_kubernetes_token=$KUBE_TOKEN
-          echo "TF_VAR_kubernetes_token=$TF_VAR_kubernetes_token" >> $GITHUB_ENV
-
-      - name: Delete existing aws-auth ConfigMap
-        run: |
-          kubectl config set-cluster eks-ci --server="$KUBE_HOST" --certificate-authority=<(echo "$KUBE_CA" | base64 -d) --embed-certs=true
-          kubectl config set-credentials gha-ci --token="$KUBE_TOKEN"
-          kubectl config set-context gha-ci --cluster=eks-ci --user=gha-ci
-          kubectl config use-context gha-ci
-          kubectl delete configmap aws-auth -n kube-system || true
-
-      - name: Terraform Init (k8s)
-        run: terraform init -reconfigure
-        working-directory: ./terraform-k8s
-
-      - name: Terraform Plan (k8s)
-        run: terraform plan
-        working-directory: ./terraform-k8s
-
-      - name: Terraform Apply (k8s)
-        run: terraform apply -auto-approve
-        working-directory: ./terraform-k8s
-
