@@ -1,5 +1,5 @@
 module "eks" {
-  manage_aws_auth_configmap = false
+  manage_aws_auth_configmap = true
   aws_auth_users = [
     {
       userarn  = "arn:aws:sts::160071257600:assumed-role/AWSReservedSSO_PowerUserPlusRole_db88d920cf78a35f/neil.price@thoughtworks.com"
