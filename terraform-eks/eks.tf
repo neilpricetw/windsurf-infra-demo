@@ -42,3 +42,34 @@ module "eks" {
 
   self_managed_node_groups = {}
 }
+
+resource "aws_eks_fargate_profile" "fargate_profile" {
+  cluster_name           = module.eks_cluster.cluster_id
+  fargate_profile_name   = "${var.prefix}-fargate-profile-eks-fargate"
+  pod_execution_role_arn = aws_iam_role.fargate_iam_role.arn
+  subnet_ids             = module.vpc.private_subnets
+
+  selector {
+    namespace = "default"
+  }
+}
+
+resource "aws_iam_role" "fargate_iam_role" {
+  name                  = "${var.prefix}-fargate-role-eks-fargate"
+  force_detach_policies = true
+  assume_role_policy = jsonencode({
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "eks-fargate-pods.amazonaws.com"
+      }
+    }]
+    Version = "2012-10-17"
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "fargate_pod_execution" {
+  role       = aws_iam_role.fargate_iam_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy"
+}
