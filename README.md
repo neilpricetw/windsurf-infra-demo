@@ -8,6 +8,7 @@ This repository contains infrastructure-as-code for deploying a highly available
 - AWS Load Balancer Controller (ALB Ingress) for public access
 - CI/CD pipeline with GitHub Actions
 - Secure IAM roles and policies for automation and controllers
+- **Demo: Minor README change for CI/CD trigger**
 
 ## Getting Started
 
