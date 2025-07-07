@@ -137,4 +137,5 @@ jobs:
             --set serviceAccount.name=aws-load-balancer-controller \
             --set region=ap-southeast-2 \
             --set vpcId=$VPC_ID \
-            --set image.tag="v2.7.1"
+            --set image.tag="v2.7.1" \ 
+            --set enableServiceMutatorWebhook=false
