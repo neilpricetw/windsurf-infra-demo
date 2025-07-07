@@ -75,8 +75,7 @@ jobs:
       - name: Get VPC ID from Terraform
         id: get-vpc-id
         run: |
-          echo "VPC_ID=$(aws ec2 describe-vpcs | jq -r '.Vpcs | .[] | .VpcId')" >> $GITHUB_ENV
-        working-directory: ./terraform-eks
+          echo "VPC_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values=np-eks-vpc | jq -r '.Vpcs | .[] | .VpcId')" >> $GITHUB_ENV
 
       - name: Install/Upgrade AWS Load Balancer Controller
         run: |
