@@ -1,5 +1,5 @@
 module "eks" {
-  manage_aws_auth_configmap = true
+  manage_aws_auth_configmap = false
   source                    = "terraform-aws-modules/eks/aws"
   version                   = "19.21.0"
 
