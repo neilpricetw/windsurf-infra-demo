@@ -84,6 +84,14 @@ jobs:
           export TF_VAR_kubernetes_token=$KUBE_TOKEN
           echo "TF_VAR_kubernetes_token=$TF_VAR_kubernetes_token" >> $GITHUB_ENV
 
+      - name: Delete existing aws-auth ConfigMap
+        run: |
+          kubectl config set-cluster eks-ci --server="$KUBE_HOST" --certificate-authority=<(echo "$KUBE_CA" | base64 -d) --embed-certs=true
+          kubectl config set-credentials gha-ci --token="$KUBE_TOKEN"
+          kubectl config set-context gha-ci --cluster=eks-ci --user=gha-ci
+          kubectl config use-context gha-ci
+          kubectl delete configmap aws-auth -n kube-system || true
+
       - name: Terraform Init (k8s)
         run: terraform init -reconfigure
         working-directory: ./terraform-k8s
