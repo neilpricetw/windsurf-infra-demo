@@ -1,21 +1,7 @@
 module "eks" {
-  manage_aws_auth_configmap = true
-  aws_auth_users = [
-    {
-      userarn  = "arn:aws:sts::160071257600:assumed-role/AWSReservedSSO_PowerUserPlusRole_db88d920cf78a35f/neil.price@thoughtworks.com"
-      username = "admin"
-      groups   = ["system:masters"]
-    }
-  ]
-  aws_auth_roles = [
-    {
-      rolearn  = "arn:aws:iam::160071257600:role/github-actions-terraform"
-      username = "github-actions"
-      groups   = ["system:masters"]
-    }
-  ]
-  source  = "terraform-aws-modules/eks/aws"
-  version = "19.21.0"
+  manage_aws_auth_configmap = false
+  source                    = "terraform-aws-modules/eks/aws"
+  version                   = "19.21.0"
 
   cluster_name    = "${var.prefix}-eks-fargate"
   cluster_version = "1.29"

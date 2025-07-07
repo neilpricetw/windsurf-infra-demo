@@ -69,6 +69,12 @@ jobs:
             terraform apply -auto-approve
           fi
 
+      - name: Trigger terraform-k8s workflow
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          event-type: apply-k8s
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Export Kubernetes Provider Vars
         id: export-kube-vars
         run: |
