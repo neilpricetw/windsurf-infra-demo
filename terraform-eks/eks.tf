@@ -44,7 +44,7 @@ module "eks" {
 }
 
 resource "aws_eks_fargate_profile" "fargate_profile" {
-  cluster_name           = module.eks.cluster_id
+  cluster_name           = module.eks.cluster_name
   fargate_profile_name   = "${var.prefix}-fargate-profile-eks-fargate"
   pod_execution_role_arn = aws_iam_role.fargate_iam_role.arn
   subnet_ids             = module.vpc.private_subnets
@@ -52,6 +52,8 @@ resource "aws_eks_fargate_profile" "fargate_profile" {
   selector {
     namespace = "default"
   }
+
+  depends_on = [module.eks]
 }
 
 resource "aws_iam_role" "fargate_iam_role" {
