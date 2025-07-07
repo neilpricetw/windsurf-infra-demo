@@ -84,14 +84,6 @@ jobs:
           export TF_VAR_kubernetes_token=$KUBE_TOKEN
           echo "TF_VAR_kubernetes_token=$TF_VAR_kubernetes_token" >> $GITHUB_ENV
 
-      - name: Delete existing aws-auth ConfigMap
-        run: |
-          kubectl config set-cluster eks-ci --server="$KUBE_HOST" --certificate-authority=<(echo "$KUBE_CA" | base64 -d) --embed-certs=true
-          kubectl config set-credentials gha-ci --token="$KUBE_TOKEN"
-          kubectl config set-context gha-ci --cluster=eks-ci --user=gha-ci
-          kubectl config use-context gha-ci
-          kubectl delete configmap aws-auth -n kube-system || true
-
       - name: Terraform Init (k8s)
         run: terraform init -reconfigure
         working-directory: ./terraform-k8s
@@ -103,3 +95,39 @@ jobs:
       - name: Terraform Apply (k8s)
         run: terraform apply -auto-approve
         working-directory: ./terraform-k8s
+
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      - name: Configure kubectl context
+        run: |
+          kubectl config set-cluster eks-ci --server="$KUBE_HOST" --certificate-authority=<(echo "$KUBE_CA" | base64 -d) --embed-certs=true
+          kubectl config set-credentials gha-ci --token="$KUBE_TOKEN"
+          kubectl config set-context gha-ci --cluster=eks-ci --user=gha-ci
+          kubectl config use-context gha-ci
+
+      - name: Install AWS Load Balancer Controller CRDs
+        run: |
+          kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
+
+      - name: Add AWS EKS Helm repo
+        run: helm repo add eks https://aws.github.io/eks-charts && helm repo update
+
+      - name: Install/Upgrade AWS Load Balancer Controller
+        run: |
+          helm upgrade --install aws-load-balancer-controller eks/aws-load-balancer-controller \
+            --namespace kube-system \
+            --set clusterName=np-eks-fargate \
+            --set serviceAccount.create=false \
+            --set serviceAccount.name=aws-load-balancer-controller \
+            --set region=ap-southeast-2 \
+            --set vpcId=$(terraform -chdir=terraform-eks output -raw vpc_id) \
+            --set image.tag="v2.7.1"
+
+      - name: Deploy React App via Helm
+        run: |
+          helm upgrade --install react-frontend ./react-frontend/helm \
+            --namespace default \
+            --set image.repository=<ECR_REPO_URL> \
+            --set image.tag=<IMAGE_TAG>
