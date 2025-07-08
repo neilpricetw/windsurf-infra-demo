@@ -3,8 +3,8 @@ module "eks" {
   source                    = "terraform-aws-modules/eks/aws"
   version                   = "19.21.0"
 
-  cluster_name    = "${var.prefix}-eks-fargate"
-  cluster_version = "1.29"
+  cluster_name    = var.eks_cluster_name
+  cluster_version = var.eks_cluster_version
   subnet_ids      = module.vpc.private_subnets
   vpc_id          = module.vpc.vpc_id
 
