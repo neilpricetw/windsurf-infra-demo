@@ -51,6 +51,11 @@ jobs:
       - name: Terraform Format
         run: terraform fmt -check -recursive
 
+      - name: Install TFLint
+        run: |
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
       - name: TFLint
         run: tflint --recursive
 
