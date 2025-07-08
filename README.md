@@ -2,6 +2,35 @@
 
 This repository contains infrastructure-as-code for deploying a highly available React frontend on AWS EKS using Fargate, with CI/CD via GitHub Actions and automated ALB (AWS Application Load Balancer) integration.
 
+## Architecture
+
+```mermaid
+graph TD
+  User((User))
+  ALB["AWS Application Load Balancer (Ingress)"]
+  EKS["AWS EKS (Fargate)"]
+  React["React Frontend App"]
+  CI["GitHub Actions (CI/CD)"]
+  TF["Terraform"]
+  ECR["AWS ECR (Docker Images)"]
+  IAM["IAM Roles/Policies"]
+  VPC["VPC"]
+
+  User --> ALB
+  ALB --> EKS
+  EKS --> React
+  CI --> ECR
+  CI --> EKS
+  React -.->|Docker Image| ECR
+  TF --> EKS
+  TF --> ALB
+  TF --> IAM
+  TF --> VPC
+  TF --> ECR
+
+  ALB -->|Ingress| React
+```
+
 ## Features
 - AWS EKS (Fargate) cluster managed with Terraform
 - React frontend deployed via Helm
