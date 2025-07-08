@@ -1,1 +1,8 @@
-when I use the alias gc+p it means git commit and push to github
+when I use the alias gc+p it means git commit and push to github.
+use public terraform modules to keep the code clean and easy to understand.
+don’t create main.tf but instead create filenames that align with the contents.
+apply logical best practices to all of this code.
+ensure all variable values are supplied through a terraform.tfvars file where it makes sense.
+add a project prefix variable that is part of the name tag on all resources.
+add an appropriate gitignore file for a terraform project
+add terraform fmt and terraform lint recursively as validation checks in git before any commits are made

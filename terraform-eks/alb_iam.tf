@@ -1,9 +1,5 @@
 # OIDC provider for your EKS cluster (if not already created)
 
-data "aws_eks_cluster_auth" "this" {
-  name = "np-eks-fargate"
-}
-
 data "aws_iam_policy_document" "alb_controller_assume_role" {
   statement {
     effect = "Allow"

@@ -18,9 +18,13 @@ permissions:
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    env:
+      ROLE_TO_ASSUME: arn:aws:iam::160071257600:role/github-actions-terraform
+      AWS_REGION: ap-southeast-2
+      TF_WORKDIR: ./terraform-eks
     defaults:
       run:
-        working-directory: ./terraform-eks
+        working-directory: ${{ env.TF_WORKDIR }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -41,11 +45,14 @@ jobs:
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::160071257600:role/github-actions-terraform
-          aws-region: ap-southeast-2
+          role-to-assume: ${{ env.ROLE_TO_ASSUME }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Terraform Format
         run: terraform fmt -check -recursive
+
+      - name: TFLint
+        run: tflint --recursive
 
       - name: Terraform Init
         run: terraform init -reconfigure

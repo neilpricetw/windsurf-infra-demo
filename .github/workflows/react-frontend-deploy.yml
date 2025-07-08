@@ -13,6 +13,8 @@ jobs:
     env:
       AWS_REGION: ap-southeast-2
       IMAGE_TAG: ${{ github.sha }}
+      EKS_CLUSTER_NAME: np-eks-fargate
+      VPC_NAME: np-eks-vpc
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -60,7 +62,7 @@ jobs:
 
       - name: Update kubeconfig for EKS
         run: |
-          aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name np-eks-fargate
+          aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER_NAME }}
 
       - name: Install Helm
         run: |
@@ -81,17 +83,17 @@ jobs:
       - name: Get VPC ID from Terraform
         id: get-vpc-id
         run: |
-          echo "VPC_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values=np-eks-vpc | jq -r '.Vpcs | .[] | .VpcId')" >> $GITHUB_ENV
+          echo "VPC_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values=${{ env.VPC_NAME }} | jq -r '.Vpcs | .[] | .VpcId')" >> $GITHUB_ENV
 
       - name: Install/Upgrade AWS Load Balancer Controller
         run: |
           helm upgrade --install aws-load-balancer-controller eks/aws-load-balancer-controller \
             --namespace kube-system \
             --set enableServiceMutatorWebhook=false \
-            --set clusterName=np-eks-fargate \
+            --set clusterName=${{ env.EKS_CLUSTER_NAME }} \
             --set serviceAccount.create=false \
             --set serviceAccount.name=aws-load-balancer-controller \
-            --set region=ap-southeast-2 \
+            --set region=${{ env.AWS_REGION }} \
             --set vpcId=$VPC_ID \
             --set image.tag="v2.7.1"
 

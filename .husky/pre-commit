@@ -1,0 +1,11 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Run terraform fmt and tflint recursively before commit
+terraform fmt -recursive
+TFLINT_EXIT=0
+tflint --recursive || TFLINT_EXIT=$?
+if [ $TFLINT_EXIT -ne 0 ]; then
+  echo "tflint failed. Please fix lint errors before committing."
+  exit 1
+fi

@@ -1,4 +1,12 @@
-
+terraform {
+  required_version = ">= 1.0.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
 
 # Optionally, you can define the provider here if you want to manage the backend resources with Terraform
 provider "aws" {
