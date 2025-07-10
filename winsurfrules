@@ -1,4 +1,5 @@
 when I use the alias gc+p it means git commit and push to github.
+when I use the alias tf+b it means run terraform for the backend folder (specify the AWS_PROFILE in the command).
 use public terraform modules to keep the code clean and easy to understand.
 don’t create main.tf but instead create filenames that align with the contents.
 apply logical best practices to all of this code.

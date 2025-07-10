@@ -1,4 +1,4 @@
-replicaCount: 3  # Set to number of AZs for HA
+replicaCount: 6  # Set to number of AZs for HA
 image:
   repository: "<your-dockerhub-username>/react-frontend"
   tag: "a9e9e4e5a7d69e7637a0953667da7fda3c49ff31"
